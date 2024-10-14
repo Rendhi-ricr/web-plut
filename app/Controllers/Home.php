@@ -2,10 +2,8 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
-{
-    public function index(): string
-    {
-        return view('index.php');
+class Home extends BaseController {
+    public function index() {
+        return redirect()->to('/login');
     }
 }
