@@ -25,7 +25,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // $routes->post('change-password', 'Auth\Auth::change_password');
 
     // UMKM
-    $routes->group('umkm', ['filter' => 'role:umkm'], function ($routes) {
+    $routes->group('umkm', ['filter' => ['auth', 'role:umkm']], function ($routes) {
         $routes->get('', 'Umkm\Home::index');
         $routes->get('profil-umkm', 'Umkm\ProfilUmkm::index');
         $routes->post('profil-umkm/update', 'Umkm\ProfilUmkm::update');
@@ -42,7 +42,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Admin
-    $routes->group('admin', ['filter' => 'role:admin_plut,admin_dkupp'], function ($routes) {
+    $routes->group('admin', ['filter' => ['auth', 'role:admin_plut,admin_dkupp']], function ($routes) {
         $routes->get('', 'Admin\Home::index');
         $routes->get('umkm', 'Admin\DataUmkm::index');
         $routes->get('perkembangan', 'Admin\Perkembangan::index');
@@ -50,7 +50,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Operator
-    $routes->group('operator', ['filter' => 'role:operator'], function ($routes) {
+    $routes->group('operator', ['filter' => ['auth', 'role:operator']], function ($routes) {
         $routes->get('', 'Operator\Home::index');
         $routes->get('buku-tamu', 'Operator\Tamu::index');
         $routes->get('buku-tamu/tambah', 'Operator\Tamu::tambah');
