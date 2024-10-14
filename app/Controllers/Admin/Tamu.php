@@ -23,9 +23,4 @@ class Tamu extends BaseController
         $data['tamu'] = $this->bukutamuModel->findAll();
         return view("admin/tamu/index", $data);
     }
-    public function tambah()
-    {
-        $data = [];
-        return view("admin/tamu/tambah", $data);
-    }
 }

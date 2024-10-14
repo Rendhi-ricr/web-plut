@@ -6,20 +6,24 @@ use App\Controllers\BaseController;
 use App\Models\UmkmModel;
 use App\Models\UserModel;
 
-class Auth extends BaseController {
-    public function login_view() {
+class Auth extends BaseController
+{
+    public function login_view()
+    {
         //
 
         return view('auth/login');
     }
 
-    public function register_view() {
+    public function register_view()
+    {
         //
 
         return view('auth/register');
     }
 
-    public function register_umkm_view() {
+    public function register_umkm_view()
+    {
         //
 
         if (!session()->get('registered')) {
@@ -28,7 +32,8 @@ class Auth extends BaseController {
         return view('auth/register-umkm');
     }
 
-    public function login() {
+    public function login()
+    {
         //
         $userModel = new UserModel();
 
@@ -69,16 +74,13 @@ class Auth extends BaseController {
                 ]);
 
                 // Check the role
-                if ($user->role == 'admin_plut') {
-                    return redirect()->to('admin');
-                } elseif ($user->role == 'admin_dkupp') {
+                if ($user->role == 'admin') {
                     return redirect()->to('admin');
                 } elseif ($user->role == 'umkm') {
                     return redirect()->to('umkm');
                 } elseif ($user->role == 'operator') {
                     return redirect()->to('operator');
                 }
-
             } else {
                 session()->setFlashdata('error', 'Password salah!');
                 return redirect()->back()->withInput();
@@ -89,7 +91,8 @@ class Auth extends BaseController {
         }
     }
 
-    public function register() {
+    public function register()
+    {
         //
         $userModel = new UserModel();
         $umkmModel = new UmkmModel();
@@ -158,12 +161,11 @@ class Auth extends BaseController {
         } else {
             session()->setFlashdata('error', 'Pendaftaran gagal! Silahkan coba lagi.');
             return redirect()->back()->withInput();
-
         }
-
     }
 
-    public function register_umkm() {
+    public function register_umkm()
+    {
         //
         $umkmModel = new UmkmModel();
 
@@ -224,12 +226,14 @@ class Auth extends BaseController {
         }
     }
 
-    public function skip() {
+    public function skip()
+    {
         session()->destroy();
         return redirect()->to('login')->with('success', 'Pendaftaran berhasil! Silahkan login.');
     }
 
-    public function logout() {
+    public function logout()
+    {
         //
         // Destroy the session
         $this->session->destroy();
@@ -238,16 +242,18 @@ class Auth extends BaseController {
         return redirect()->to("login")->with('message', 'Anda telah keluar dari sistem.');
     }
 
-    public function forgot_password() {
+    public function forgot_password()
+    {
         //
     }
 
-    public function reset_password() {
+    public function reset_password()
+    {
         //
     }
 
-    public function change_password() {
+    public function change_password()
+    {
         //
     }
-
 }

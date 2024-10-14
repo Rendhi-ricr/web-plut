@@ -41,13 +41,20 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Admin
-    $routes->group('admin', ['filter' => ['auth', 'role:admin_plut,admin_dkupp']], function ($routes) {
+    $routes->group('admin', ['filter' => ['auth', 'role:admin']], function ($routes) {
         $routes->get('', 'Admin\Home::index');
         $routes->get('umkm', 'Admin\DataUmkm::index');
+        $routes->get('umkm/hapus/(:num)', 'Admin\DataUmkm::hapus/$1');
         $routes->get('perkembangan', 'Admin\Perkembangan::index');
+
         $routes->get('user', 'Admin\User::index');
+        $routes->get('user/tambah', 'Admin\User::tambah');
+        $routes->post('user/simpan', 'Admin\User::simpan');
+        $routes->get('user/edit/(:num)', 'Admin\User::edit/$1');
+        $routes->post('user/update/(:num)', 'Admin\User::update/$1');
+        $routes->get('user/hapus/(:num)', 'Admin\User::hapus/$1');
+
         $routes->get('tamu', 'Admin\Tamu::index');
-        $routes->get('tamu/tambah', 'Admin\Tamu::tambah');
     });
 
     // Operator

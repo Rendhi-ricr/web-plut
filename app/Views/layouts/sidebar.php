@@ -4,7 +4,7 @@
             <span class="align-middle">SILADU</span>
         </a>
         <ul class="sidebar-nav">
-            <?php if (session()->get('role') == 'admin_plut' || session()->get('role') == 'admin_dkupp'): ?>
+            <?php if (session()->get('role') == 'admin'): ?>
                 <li class="sidebar-header">
                     Beranda
                 </li>

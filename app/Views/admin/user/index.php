@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-6">
                 <div class="text-end">
-                    <a href="" class="btn btn-primary"><i class="fa fa-plus fa-sm"></i> Tambah</a>
+                    <a href="<?= base_url('admin/user/tambah') ?>" class="btn btn-primary"><i class="fa fa-plus fa-sm"></i> Tambah</a>
                 </div>
             </div>
         </div>
@@ -21,8 +21,22 @@
 
             <div class="card">
                 <div class="card-body">
+                    <?php if (session()->getFlashdata('error')): ?>
+                        <div class="alert alert-danger">
+                            <div class="alert-message">
+                                <?= session()->getFlashdata('error') ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="alert alert-success">
+                            <div class="alert-message">
+                                <?= session()->getFlashdata('success') ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="perkembangan-table" style="width: 100%;">
+                        <table class="table table-bordered table-striped" id="user-table" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -43,8 +57,8 @@
                                         <td><?= $key->email ?></td>
                                         <td><?= $key->role ?></td>
                                         <td>
-                                            <a href="" class="btn btn-warning">Edit</a>
-                                            <a href="" class="btn btn-danger">Hapus</a>
+                                            <a href="<?= base_url('admin/user/edit/' . $key->id_user) ?>" class="btn btn-warning"><i class="fa fa-edit me-2"></i>Edit</a>
+                                            <a href="<?= base_url('admin/user/hapus/' . $key->id_user) ?>" class="btn btn-danger"><i class="fa fa-trash me-2"></i>Hapus</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -62,4 +76,12 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script>
+    $(document).ready(function() {
+        $('#user-table').DataTable({
+            "responsive": true,
+            "autoWidth": true,
+        });
+    });
+</script>
 <?= $this->endSection() ?>

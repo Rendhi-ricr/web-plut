@@ -21,6 +21,26 @@
 
             <div class="card">
                 <div class="card-body">
+                    <?php if (session()->get('success')): ?>
+                        <div class="alert alert-success">
+                            <div class="alert-icon">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                            <div class="alert-message">
+                                <?= session()->getFlashdata('success') ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (session()->get('error')): ?>
+                        <div class="alert alert-danger">
+                            <div class="alert-icon">
+                                <i class="fa fa-circle-exclamation"></i>
+                            </div>
+                            <div class="alert-message">
+                                <?= session()->getFlashdata('error') ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="dataumkm-table" style="width: 100%;">
                             <thead>
@@ -63,6 +83,7 @@
                                             <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#modalDetail<?= $item->kode_umkm ?>"><i
                                                     class="fa fa-info-circle me-2"></i>Detail</button>
+                                            <a href="<?= base_url('admin/umkm/hapus/' . $item->kode_umkm) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash me-2"></i>Hapus</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

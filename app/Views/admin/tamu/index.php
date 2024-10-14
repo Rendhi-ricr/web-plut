@@ -5,14 +5,8 @@
 
     <div class="mb-3">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h1 class="h3 d-inline align-middle">Data Tamu</h1>
-            </div>
-            <div class="col-md-6">
-                <div class="text-end">
-                    <a href="<?= base_url('admin/tamu/tambah') ?>" class="btn btn-primary"><i
-                            class="fa fa-plus me-2"></i>Tambah</a>
-                </div>
             </div>
         </div>
     </div>
@@ -21,36 +15,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <?php if (session()->getFlashdata('success')): ?>
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <div class="alert-icon">
-                                <i class="fa fa-circle-check"></i>
-                            </div>
-                            <div class="alert-message">
-                                <?= session()->getFlashdata('success') ?>
-                            </div>
-                        </div>
-                    <?php elseif (session()->getFlashdata('error')): ?>
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <div class="alert-icon">
-                                <i class="fa fa-circle-exclamation"></i>
-                            </div>
-                            <div class="alert-message">
-                                <?= session()->getFlashdata('error') ?>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <div class="alert alert-info">
-                            <div class="alert-icon">
-                                <i class="fa fa-circle-info"></i>
-                            </div>
-                            <div class="alert-message">
-                                Silakan klik tombol <strong>Selesai</strong> untuk menyelesaikan layanan tamu.
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="bukutamu-table" style="width: 100%;">
                             <thead>
@@ -80,10 +44,6 @@
                                         <td><?= $item->tanggal_kedatangan ?></td>
                                         <td><?= $item->tanggal_pulang ?></td>
                                         <td>
-                                            <?php if ($item->foto == null): ?>
-                                                <a href="" class="btn btn-sm btn-primary my-2" id="btnSelesai"><i
-                                                        class="fa fa-check me-2"></i>Selesai</a>
-                                            <?php endif; ?>
                                             <a href="#" class="btn btn-sm btn-primary my-2" id="btnFoto"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalFoto<?= $item->id_buku_tamu ?>"><i
