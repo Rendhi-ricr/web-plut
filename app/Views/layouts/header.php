@@ -16,8 +16,7 @@ use App\Models\UserModel;
                 </a>
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                    <img src="<?= base_url() ?>assets/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1"
-                        alt="Charles Hall" /> <span
+                    <span
                         class="text-dark"><?= model('UserModel')->getLoginData()->nama ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">

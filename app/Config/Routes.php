@@ -38,7 +38,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('perkembangan/edit/(:num)', 'Umkm\Perkembangan::edit/$1');
         $routes->post('perkembangan/update/(:num)', 'Umkm\Perkembangan::update/$1');
         $routes->get('perkembangan/hapus/(:num)', 'Umkm\Perkembangan::hapus/$1');
-
     });
 
     // Admin
@@ -46,7 +45,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('', 'Admin\Home::index');
         $routes->get('umkm', 'Admin\DataUmkm::index');
         $routes->get('perkembangan', 'Admin\Perkembangan::index');
-
+        $routes->get('user', 'Admin\User::index');
+        $routes->get('tamu', 'Admin\Tamu::index');
+        $routes->get('tamu/tambah', 'Admin\Tamu::tambah');
     });
 
     // Operator
@@ -60,5 +61,4 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->post('buku-tamu/selesai/', 'Operator\Tamu::selesai');
         $routes->get('buku-tamu/hapus/(:num)', 'Operator\Tamu::hapus/$1');
     });
-
 });

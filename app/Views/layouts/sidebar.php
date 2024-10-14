@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
-        <a class="sidebar-brand" href="index.html">
-            <span class="align-middle">PLUT UMKM</span>
+        <a class="sidebar-brand text-center fs-2" href="index.html">
+            <span class="align-middle">SILADU</span>
         </a>
         <ul class="sidebar-nav">
             <?php if (session()->get('role') == 'admin_plut' || session()->get('role') == 'admin_dkupp'): ?>
@@ -11,6 +11,15 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="<?= base_url('admin') ?>">
                         <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-header">
+                    Master
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="<?= base_url('admin/user') ?>">
+                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manajemen User
+                            UMKM</span>
                     </a>
                 </li>
                 <li class="sidebar-header">
@@ -27,6 +36,13 @@
                             UMKM</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="<?= base_url('admin/tamu') ?>">
+                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            Tamu</span>
+                    </a>
+                </li>
+
             <?php elseif (session()->get('role') == 'umkm'): ?>
                 <li class="sidebar-header">
                     Beranda
