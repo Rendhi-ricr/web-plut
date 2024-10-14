@@ -16,8 +16,7 @@ use CodeIgniter\Config\Routing as BaseRouting;
 /**
  * Routing configuration
  */
-class Routing extends BaseRouting
-{
+class Routing extends BaseRouting {
     /**
      * An array of files that contain route definitions.
      * Route files are read in order, with the first match
@@ -89,7 +88,7 @@ class Routing extends BaseRouting
      *
      * If FALSE, will stop searching and do NO automatic routing.
      */
-    public bool $autoRoute = true;
+    public bool $autoRoute = false;
 
     /**
      * If TRUE, will enable the use of the 'prioritize' option
