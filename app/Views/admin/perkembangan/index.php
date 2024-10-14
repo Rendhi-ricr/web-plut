@@ -1,6 +1,6 @@
-<?= $this->extend('layouts/base') ?>
-<?= $this->section('title') ?>Data Perkembangan UMKM<?= $this->endSection() ?>
-<?= $this->section('content') ?>
+<?=$this->extend('layouts/base')?>
+<?=$this->section('title')?>Data Perkembangan UMKM<?=$this->endSection()?>
+<?=$this->section('content')?>
 <div class="container-fluid p-0">
 
     <div class="mb-3">
@@ -22,7 +22,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-bordered table-striped" id="perkembangan-table" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -31,38 +31,79 @@
                                     <th>Asset</th>
                                     <th>Omzet</th>
                                     <th>Produk Unggulan</th>
-                                    <th>Foto Produk</th>
                                     <th>Jumlah Tenaga Kerja</th>
-                                    <th>Aksi</th>
+                                    <th>Foto Produk</th>
+                                    <!-- <th>Aksi</th> -->
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <?php
-                                $no = 1;
-                                foreach ($perkembangan as $key => $p) : ?>
-                                    <tr>
-                                        <td><?= $no++; ?></td>
-                                        <td><?= $p->nama_umkm ?></td>
-                                        <td><?= $p->tahun ?></td>
-                                        <td><?= $p->asset ?></td>
-                                        <td><?= $p->omzet ?></td>
-                                        <td><?= $p->produk_unggulan ?></td>
-                                        <td><?= $p->foto_produk ?></td>
-                                        <td><?= $p->jumlah_tenaga_kerja ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+$no = 1;
+foreach ($perkembangan as $key => $item): ?>
+                                <tr>
+                                    <td><?=$no++;?></td>
+                                    <td><?=$item->nama_umkm?></td>
+                                    <td><?=$item->tahun?></td>
+                                    <td><?=$item->asset?></td>
+                                    <td><?=$item->omzet?></td>
+                                    <td><?=$item->produk_unggulan?></td>
+                                    <td><?=$item->jumlah_tenaga_kerja?></td>
+                                    <td>
+                                        <a href="" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#modalFoto" data-foto="<?=$item->foto_produk?>"><i
+                                                class="fa fa-photo-film me-2"></i>Lihat Foto</a>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
                             </tbody>
                         </table>
                     </div>
-                    <!-- <div class="text-end mt-3">
-                        <button type="button" class="btn btn-success" id="downloadBtn">Download Data Terpilih</button>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
-<?= $this->endSection() ?>
+<!-- Modal FOto -->
+
+<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFotoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFotoLabel">Foto Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="img-fluid " alt="Foto Produk" id="img-viewer">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                    data-bs-target="#modalDetail">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?=$this->endSection()?>
+
+<?=$this->section('script')?>
+<script>
+$(document).ready(function() {
+
+    let table = $('#perkembangan-table').DataTable({
+        "responsive": true,
+        "autoWidth": true,
+    });
+
+    $('#modalFoto').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('foto')
+        var modal = $(this)
+        var imgViewer = modal.find('#img-viewer')
+
+        imgViewer.attr('src', '<?=base_url()?>/uploads/' + recipient)
+    })
+})
+</script>
+<?=$this->endSection()?>

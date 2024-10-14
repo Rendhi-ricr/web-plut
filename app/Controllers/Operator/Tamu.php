@@ -3,59 +3,115 @@
 namespace App\Controllers\Operator;
 
 use App\Controllers\BaseController;
-use App\Models\TamuModels;
-// use App\Models\UserModel;
+use App\Models\BukuTamuModel;
+use DateTime;
 
+class Tamu extends BaseController {
 
-class Tamu extends BaseController
-{
     protected $tamuModel;
-    public function __construct()
-    {
-        $this->tamuModel = new TamuModels();
+
+    public function __construct() {
+        $this->tamuModel = new BukuTamuModel();
         // $this->userModel = new UserModel();
     }
 
-    public function index()
-    {
+    public function index() {
         $data['tamu'] = $this->tamuModel->findAll();
-        return view("operator/index", $data);
+        return view("operator/buku_tamu/index", $data);
     }
 
-
-
-    public function tambah()
-    {
+    public function tambah() {
         $data = [];
-        return view('operator/tambah', $data);
+        return view('operator/buku_tamu/tambah', $data);
     }
 
-    // public function edit($id_kategori)
-    // {
-    //     // Mencari item berdasarkan ID yang diberikan
-    //     $data = [
-    //         'kategori' => $this->kategoriModel->data_kategori($id_kategori),
+    public function simpan() {
+        // get current date and time with timezone Asia/Jakarta
+        $currentDateTime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'), new \DateTimeZone('Asia/Jakarta'));
+        $currentDate = $currentDateTime->format('Y-m-d');
+        $currentTime = $currentDateTime->format('H:i:s');
 
-    //     ];
+        $data = [
+            'layanan' => $this->request->getPost('layanan'),
+            'kategori_layanan' => $this->request->getPost('kategori_layanan'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'tanggal_kedatangan' => $currentDate,
+            'jam_kedatangan' => $currentTime,
+        ];
 
-    //     // Memeriksa apakah form telah di-submit dengan metode POST
-    //     if ($this->request->getMethod() === 'post') {
+        $res = $this->tamuModel->insert($data);
 
+        if ($res) {
+            return redirect()->to('/operator/buku-tamu')->with('success', 'Data berhasil disimpan.');
+        } else {
+            return redirect()->to('/operator/buku-tamu')->with('error', 'Data gagal disimpan.');
+        }
+    }
 
-    //         // Mengumpulkan data yang akan diperbarui
-    //         $updateData = [
-    //             'nama_kategori'   => $this->request->getPost('nama_kategori'),
-    //         ];
+    public function edit($id) {
+        $data['tamu'] = $this->tamuModel->find($id);
+        return view('operator/buku_tamu/edit', $data);
+    }
 
-    //         // Memperbarui data item di database
-    //         $this->kategoriModel->update($id_kategori, $updateData);
+    public function update($id) {
+        $data = [
+            'layanan' => $this->request->getPost('layanan'),
+            'kategori_layanan' => $this->request->getPost('kategori_layanan'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+        ];
 
-    //         // Menampilkan pesan sukses
-    //         session()->setFlashdata('message', 'Item berhasil diperbarui');
-    //         return redirect()->to('/panel/kategori');
-    //     }
+        $res = $this->tamuModel->update($id, $data);
 
-    //     // Menampilkan view dengan data item dan kategori
-    //     return view('admin/kategori/edit', $data);
-    // }
+        if ($res) {
+            return redirect()->to('/operator/buku-tamu')->with('success', 'Data berhasil di perbaharui.');
+        } else {
+            return redirect()->to('/operator/buku-tamu')->with('error', 'Data gagal di perbaharui.');
+        }
+    }
+
+    public function hapus($id) {
+
+        // delete file
+        $oldFile = $this->tamuModel->find($id)->foto;
+        if (file_exists('uploads/foto_tamu/' . $oldFile)) {
+            deleteDirectory('uploads/foto_tamu/' . $oldFile);
+        }
+
+        $res = $this->tamuModel->delete($id);
+
+        if ($res) {
+            return redirect()->to('/operator/buku-tamu')->with('success', 'Data berhasil dihapus.');
+        } else {
+            return redirect()->to('/operator/buku-tamu')->with('error', 'Data gagal dihapus.');
+        }
+    }
+
+    public function selesai() {
+        $currentDateTime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'), new \DateTimeZone('Asia/Jakarta'));
+        $currentDate = $currentDateTime->format('Y-m-d');
+        $currentTime = $currentDateTime->format('H:i:s');
+
+        $id = $this->request->getPost('id_buku_tamu');
+
+        $data = [
+            'tanggal_pulang' => $currentDate,
+            'jam_pulang' => $currentTime,
+        ];
+
+        $file = $this->request->getFile('foto');
+
+        if ($file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/foto_tamu', $newName);
+            $data['foto'] = $newName;
+        }
+
+        $res = $this->tamuModel->update($id, $data);
+
+        if ($res) {
+            return redirect()->to('/operator/buku-tamu')->with('success', 'Layanan tamu sudah selesai.');
+        } else {
+            return redirect()->to('/operator/buku-tamu')->with('error', 'Data gagal di perbaharui.');
+        }
+    }
 }

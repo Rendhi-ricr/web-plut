@@ -3,74 +3,71 @@
         <a class="sidebar-brand" href="index.html">
             <span class="align-middle">PLUT UMKM</span>
         </a>
-
         <ul class="sidebar-nav">
+            <?php if (session()->get('role') == 'admin_plut' || session()->get('role') == 'admin_dkupp'): ?>
             <li class="sidebar-header">
-                Tools & Components
+                Beranda
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="/">
-                    <i class="align-middle" data-feather="square"></i> <span class="align-middle">Dashboard</span>
+                <a class="sidebar-link" href="<?=base_url('admin')?>">
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
+            <li class="sidebar-header">
+                Data
+            </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="umkm">
-                    <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Profil UMKM</span>
+                <a class="sidebar-link" href="<?=base_url('admin/umkm')?>">
+                    <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Data UMKM</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link" href="perkembangan">
-                    <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Perkembangan UMKM</span>
+                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Perkembangan
+                        UMKM</span>
                 </a>
             </li>
-            <!-- <li class="sidebar-item">
-                <a class="sidebar-link" href="">
-                    <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Data Pengaduan</span>
+            <?php elseif (session()->get('role') == 'umkm'): ?>
+            <li class="sidebar-header">
+                Beranda
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="<?=base_url('umkm')?>">
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
                 </a>
-            </li> -->
-            <!-- <li class="sidebar-item">
-                <a data-bs-target="#multi" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-right-down align-middle">
-                        <polyline points="10 15 15 20 20 15"></polyline>
-                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                    </svg> <span class="align-middle">Master</span>
-                </a>
-                <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> -->
-            <!-- <li class="sidebar-item">
-                        <a href="/panel/barang" class="sidebar-link ms-4">Barang</a>
-                    </li> -->
-            <!-- <li class="sidebar-item">
-                        <a href="/panel/kategori" class="sidebar-link ms-4">
-                            Kategori Barang
-                        </a>
-                    </li> -->
-            <!-- <li class="sidebar-item">
-                <a href="/pdm" class="sidebar-link ms-4">
-                    PDM
+            </li>
+            <li class="sidebar-header">
+                Data
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="<?=base_url('umkm/profil-umkm')?>">
+                    <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Profil UMKM</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="/panel/ruangan" class="sidebar-link ms-4">
-                    Data Ruangan
+                <a class="sidebar-link" href="<?=base_url('umkm/perkembangan')?>">
+                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Perkembangan
+                        UMKM</span>
                 </a>
+            </li>
+            <?php elseif (session()->get('role') == 'operator'): ?>
+            <li class="sidebar-header">
+                Beranda
             </li>
             <li class="sidebar-item">
-                <a href="/panel/kategori" class="sidebar-link ms-4">
-                    Data Kategori
+                <a class="sidebar-link" href="<?=base_url('operator')?>">
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
                 </a>
+            </li>
+            <li class="sidebar-header">
+                Data
             </li>
             <li class="sidebar-item">
-                <a href="/panel/barang" class="sidebar-link ms-4">
-                    Data Item /
-                    Barang
+                <a class="sidebar-link" href="<?=base_url('operator/buku-tamu');?>">
+                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Buku Tamu</span>
                 </a>
             </li>
+            <?php endif;?>
         </ul>
-        </li> -->
-
-        </ul>
-
-
-
     </div>
 </nav>

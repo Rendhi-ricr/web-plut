@@ -3,82 +3,199 @@
 namespace App\Controllers\Umkm;
 
 use App\Controllers\BaseController;
-use App\Models\PerkembanganModels;
-use App\Models\UmkmModels;
+use App\Models\UmkmModel;
+use App\Models\UmkmPerkembanganModel;
 
-
-class Perkembangan extends BaseController
-{
+class Perkembangan extends BaseController {
     protected $perkembanganModel, $umkmModel;
-    public function __construct()
-    {
-        $this->perkembanganModel = new PerkembanganModels();
-        $this->umkmModel = new UmkmModels();
+    public function __construct() {
+        $this->perkembanganModel = new UmkmPerkembanganModel();
+        $this->umkmModel = new UmkmModel();
     }
 
-    public function index()
-    {
-        $data['perkembangan'] = $this->perkembanganModel->getAll();
+    public function index() {
+        $id_umkm = model('UserModel')->getLoginData()->kode_umkm;
+        $data['perkembangan'] = $this->perkembanganModel->joinUmkm($id_umkm);
         return view("umkm/perkembangan/index", $data);
     }
 
-    public function tambah()
-    {
-        $data = [];
+    public function tambah() {
+        $id_umkm = model('UserModel')->getLoginData()->kode_umkm;
+        $data['umkm'] = $this->umkmModel->find($id_umkm);
         return view('umkm/perkembangan/tambah', $data);
     }
 
+    public function simpan() {
+        $id_umkm = model('UserModel')->getLoginData()->kode_umkm;
 
+        // validate request
+        $rules = [
+            'tahun' => 'required|numeric|exact_length[4]',
+            'omzet' => 'required|numeric',
+            'asset' => 'required|numeric',
+            'produk_unggulan' => 'required|alpha_numeric_space',
+            'jumlah_tenaga_kerja' => 'required|numeric',
+            'foto_produk' => 'uploaded[foto_produk]|max_size[foto_produk,1024]|is_image[foto_produk]|mime_in[foto_produk,image/jpg,image/jpeg,image/png]',
+        ];
 
-    // public function tambah()
-    // {
-    //     $data = [];
-    //     if ($this->request->getMethod() === 'post') {
+        $message = [
+            'tahun' => [
+                'required' => 'Tahun wajib diisi',
+                'numeric' => 'Tahun hanya boleh berisi angka',
+                'exact_length' => 'Tahun harus berisi 4 digit',
+            ],
+            'omzet' => [
+                'required' => 'Omzet wajib diisi',
+                'numeric' => 'Omzet hanya boleh berisi angka',
+            ],
+            'asset' => [
+                'required' => 'Asset wajib diisi',
+                'numeric' => 'Asset hanya boleh berisi angka',
+            ],
+            'produk_unggulan' => [
+                'required' => 'Produk Unggulan wajib diisi',
+                'alpha_numeric_space' => 'Produk Unggulan hanya boleh berisi huruf, angka, dan spasi',
+            ],
+            'jumlah_tenaga_kerja' => [
+                'required' => 'Jumlah Tenaga Kerja wajib diisi',
+                'numeric' => 'Jumlah Tenaga Kerja hanya boleh berisi angka',
+            ],
+            'foto_produk' => [
+                'uploaded' => 'Foto Produk wajib diisi',
+                'max_size' => 'Ukuran Foto Produk maksimal 1MB',
+                'is_image' => 'Foto Produk harus berupa gambar',
+                'mime_in' => 'Foto Produk harus berupa gambar dengan format jpg, jpeg, atau png',
+            ],
+        ];
 
-    //         $kategoriModel = new KategoriModel();
-    //         // $klasifikasi = $this->request->getPost('klasifikasi');
-    //         // $kodeGedung = $gedungModel->generateKodeGedung($klasifikasi);
-    //         $storeData = [
-    //             // 'kode_gedung'   => $kodeGedung,
-    //             'nama_kategori'   => $this->request->getPost('nama_kategori'),
-    //             // 'keterangan'   => $this->request->getPost('keterangan'),
+        if (!$this->validate($rules, $message)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
 
-    //         ];
-    //         $kategoriModel->insert($storeData);
+        $data = [
+            'kode_umkm' => $id_umkm,
+            'tahun' => $this->request->getPost('tahun'),
+            'omzet' => $this->request->getPost('omzet'),
+            'asset' => $this->request->getPost('asset'),
+            'produk_unggulan' => $this->request->getPost('produk_unggulan'),
+            'jumlah_tenaga_kerja' => $this->request->getPost('jumlah_tenaga_kerja'),
+        ];
 
-    //         //flash message
-    //         session()->setFlashdata('message', 'Faq berhasil disimpan');
-    //         return redirect()->to('/panel/kategori');
-    //     }
-    //     return view('admin/kategori/tambah', $data);
-    // }
+        $file = $this->request->getFile('foto_produk');
 
-    // public function edit($id_kategori)
-    // {
-    //     // Mencari item berdasarkan ID yang diberikan
-    //     $data = [
-    //         'kategori' => $this->kategoriModel->data_kategori($id_kategori),
+        $folder = 'umkm/' . $id_umkm . '/foto_produk/';
 
-    //     ];
+        if ($file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move('uploads/' . $folder, $newName);
+            $data['foto_produk'] = $folder . $newName;
+        }
 
-    //     // Memeriksa apakah form telah di-submit dengan metode POST
-    //     if ($this->request->getMethod() === 'post') {
+        $res = $this->perkembanganModel->insert($data);
 
+        if ($res) {
+            return redirect()->to(base_url('umkm/perkembangan'))->with('success', 'Data berhasil disimpan');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Data gagal disimpan');
+        }
+    }
 
-    //         // Mengumpulkan data yang akan diperbarui
-    //         $updateData = [
-    //             'nama_kategori'   => $this->request->getPost('nama_kategori'),
-    //         ];
+    public function edit($id_perkembangan) {
+        $data['perkembangan'] = $this->perkembanganModel->getPerkembanganById($id_perkembangan);
+        return view('umkm/perkembangan/edit', $data);
+    }
 
-    //         // Memperbarui data item di database
-    //         $this->kategoriModel->update($id_kategori, $updateData);
+    public function update($id_perkembangan) {
+        $id_umkm = model('UserModel')->getLoginData()->kode_umkm;
+        // validate request
+        $rules = [
+            'tahun' => 'required|numeric|exact_length[4]',
+            'omzet' => 'required|numeric',
+            'asset' => 'required|numeric',
+            'produk_unggulan' => 'required|alpha_numeric_space',
+            'jumlah_tenaga_kerja' => 'required|numeric',
+            'foto_produk' => 'max_size[foto_produk,1024]|is_image[foto_produk]|mime_in[foto_produk,image/jpg,image/jpeg,image/png]',
+        ];
 
-    //         // Menampilkan pesan sukses
-    //         session()->setFlashdata('message', 'Item berhasil diperbarui');
-    //         return redirect()->to('/panel/kategori');
-    //     }
+        $message = [
+            'tahun' => [
+                'required' => 'Tahun wajib diisi',
+                'numeric' => 'Tahun hanya boleh berisi angka',
+                'exact_length' => 'Tahun harus berisi 4 digit',
+            ],
+            'omzet' => [
+                'required' => 'Omzet wajib diisi',
+                'numeric' => 'Omzet hanya boleh berisi angka',
+            ],
+            'asset' => [
+                'required' => 'Asset wajib diisi',
+                'numeric' => 'Asset hanya boleh berisi angka',
+            ],
+            'produk_unggulan' => [
+                'required' => 'Produk Unggulan wajib diisi',
+                'alpha_numeric_space' => 'Produk Unggulan hanya boleh berisi huruf, angka, dan spasi',
+            ],
+            'jumlah_tenaga_kerja' => [
+                'required' => 'Jumlah Tenaga Kerja wajib diisi',
+                'numeric' => 'Jumlah Tenaga Kerja hanya boleh berisi angka',
+            ],
+            'foto_produk' => [
+                'max_size' => 'Ukuran Foto Produk maksimal 1MB',
+                'is_image' => 'Foto Produk harus berupa gambar',
+                'mime_in' => 'Foto Produk harus berupa gambar dengan format jpg, jpeg, atau png',
+            ],
+        ];
 
-    //     // Menampilkan view dengan data item dan kategori
-    //     return view('admin/kategori/edit', $data);
-    // }
+        if (!$this->validate($rules, $message)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $data = [
+            'tahun' => $this->request->getPost('tahun'),
+            'omzet' => $this->request->getPost('omzet'),
+            'asset' => $this->request->getPost('asset'),
+            'produk_unggulan' => $this->request->getPost('produk_unggulan'),
+            'jumlah_tenaga_kerja' => $this->request->getPost('jumlah_tenaga_kerja'),
+        ];
+
+        $oldFile = $this->perkembanganModel->find($id_perkembangan)->foto_produk;
+
+        $file = $this->request->getFile('foto_produk');
+
+        $folder = 'umkm/' . $id_umkm . '/foto_produk/';
+
+        if ($file->isValid() && !$file->hasMoved()) {
+            if (file_exists('uploads/' . $oldFile)) {
+                deleteDirectory('uploads/' . $oldFile);
+            }
+            $newName = $file->getRandomName();
+            $file->move('uploads/' . $folder, $newName);
+            $data['foto_produk'] = $folder . $newName;
+        }
+
+        $res = $this->perkembanganModel->update($id_perkembangan, $data);
+
+        if ($res) {
+            return redirect()->to(base_url('umkm/perkembangan'))->with('success', 'Data berhasil diupdate');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Data gagal diupdate');
+        }
+    }
+
+    public function hapus($id_perkembangan) {
+        $res = $this->perkembanganModel->delete($id_perkembangan);
+
+        // delete file
+        $oldFile = $this->perkembanganModel->find($id_perkembangan)->foto_produk;
+        if (file_exists('uploads/' . $oldFile)) {
+            deleteDirectory('uploads/' . $oldFile);
+        }
+
+        if ($res) {
+            return redirect()->to(base_url('umkm/perkembangan'))->with('success', 'Data berhasil dihapus');
+        } else {
+            return redirect()->to(base_url('umkm/perkembangan'))->with('error', 'Data gagal dihapus');
+        }
+    }
+
 }
