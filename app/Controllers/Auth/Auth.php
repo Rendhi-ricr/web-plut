@@ -222,14 +222,14 @@ class Auth extends BaseController {
     }
 
     public function skip() {
-        session()->destroy();
+        session()->remove('registered');
         return redirect()->to('login')->with('success', 'Pendaftaran berhasil! Silahkan login.');
     }
 
     public function logout() {
         //
         // Destroy the session
-        session()->remove('registered');
+        session()->destroy();
         // Redirect to the login page
         session()->setFlashdata('message', 'Anda telah keluar dari aplikasi.');
         return redirect()->to("login")->with('message', 'Anda telah keluar dari sistem.');
