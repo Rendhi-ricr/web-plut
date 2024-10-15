@@ -213,7 +213,7 @@ class Auth extends BaseController {
         ]);
 
         if ($umkmModel) {
-            session()->destroy();
+            session()->remove('registered');
             return redirect()->to('login')->with('success', 'Pendaftaran berhasil! Silahkan login.');
         } else {
             session()->setFlashdata('error', 'Pendaftaran gagal! Silahkan coba lagi.');
@@ -229,7 +229,7 @@ class Auth extends BaseController {
     public function logout() {
         //
         // Destroy the session
-        $this->session->destroy();
+        session()->remove('registered');
         // Redirect to the login page
         session()->setFlashdata('message', 'Anda telah keluar dari aplikasi.');
         return redirect()->to("login")->with('message', 'Anda telah keluar dari sistem.');
