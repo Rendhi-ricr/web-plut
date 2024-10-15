@@ -24,6 +24,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('logout', 'Auth\Auth::logout');
     // $routes->post('change-password', 'Auth\Auth::change_password');
 
+    // Settings
+    $routes->get('settings', 'ProfileSettings::index');
+    $routes->post('settings/update-profil', 'ProfileSettings::update_profil');
+    $routes->post('settings/update-sandi', 'ProfileSettings::update_sandi');
+
     // UMKM
     $routes->group('umkm', ['filter' => ['auth', 'role:umkm,developer']], function ($routes) {
         $routes->get('', 'Umkm\Home::index');
