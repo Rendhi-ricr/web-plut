@@ -8,7 +8,7 @@
             <li class="sidebar-header">
                 Beranda
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is(session()->get('role')) ) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url(session()->get('role'))?>">
                     <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
                 </a>
@@ -17,7 +17,7 @@
             <li class="sidebar-header">
                 Master
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is('admin/user') || url_is('admin/user/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('admin/user')?>">
                     <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manajemen User
                         UMKM</span>
@@ -28,24 +28,25 @@
                 Data
             </li>
             <?php if (session()->get('role') == 'admin' || session()->get('role') == 'developer'): ?>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is('admin/umkm') || url_is('admin/umkm/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('admin/umkm')?>">
                     <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Data UMKM</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <li
+                class="sidebar-item <?=(url_is('admin/perkembangan') || url_is('admin/perkembangan/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('admin/perkembangan')?>">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Data Perkembangan
                         UMKM</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is('admin/tamu') || url_is('admin/tamu/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('admin/tamu')?>">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">
                         Data Tamu</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is('admin/kegiatan') || url_is('admin/kegiatan/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('admin/kegiatan')?>">
                     <i class="align-middle" data-feather="activity"></i> <span class="align-middle">
                         Data Kegiatan</span>
@@ -53,12 +54,13 @@
             </li>
             <?php endif;?>
             <?php if (session()->get('role') == 'umkm' || session()->get('role') == 'developer'): ?>
-            <li class="sidebar-item">
+            <li class="sidebar-item <?=(url_is('umkm/profil-umkm') || url_is('umkm/profil-umkm/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('umkm/profil-umkm')?>">
                     <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Profil UMKM</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <li
+                class="sidebar-item <?=(url_is('umkm/perkembangan') || url_is('umkm/perkembangan/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('umkm/perkembangan')?>">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Perkembangan
                         UMKM</span>
@@ -66,7 +68,8 @@
             </li>
             <?php endif;?>
             <?php if (session()->get('role') == 'operator' || session()->get('role') == 'developer'): ?>
-            <li class="sidebar-item">
+            <li
+                class="sidebar-item <?=(url_is('operator/buku-tamu') || url_is('operator/buku-tamu/*')) ? 'active' : ''?>">
                 <a class="sidebar-link" href="<?=base_url('operator/buku-tamu');?>">
                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Buku Tamu</span>
                 </a>
