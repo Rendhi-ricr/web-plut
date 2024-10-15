@@ -42,6 +42,12 @@
                             Tamu</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="<?= base_url('admin/kegiatan') ?>">
+                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            Kegiatan</span>
+                    </a>
+                </li>
 
             <?php elseif (session()->get('role') == 'umkm'): ?>
                 <li class="sidebar-header">
