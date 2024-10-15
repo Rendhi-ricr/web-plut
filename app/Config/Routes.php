@@ -25,7 +25,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // $routes->post('change-password', 'Auth\Auth::change_password');
 
     // UMKM
-    $routes->group('umkm', ['filter' => ['auth', 'role:umkm']], function ($routes) {
+    $routes->group('umkm', ['filter' => ['auth', 'role:umkm,developer']], function ($routes) {
         $routes->get('', 'Umkm\Home::index');
         $routes->get('profil-umkm', 'Umkm\ProfilUmkm::index');
         $routes->post('profil-umkm/update', 'Umkm\ProfilUmkm::update');
@@ -41,7 +41,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Admin
-    $routes->group('admin', ['filter' => ['auth', 'role:admin']], function ($routes) {
+    $routes->group('admin', ['filter' => ['auth', 'role:admin,developer']], function ($routes) {
         $routes->get('', 'Admin\Home::index');
         $routes->get('umkm', 'Admin\DataUmkm::index');
         $routes->get('umkm/hapus/(:num)', 'Admin\DataUmkm::hapus/$1');
@@ -53,13 +53,19 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('user/edit/(:num)', 'Admin\User::edit/$1');
         $routes->post('user/update/(:num)', 'Admin\User::update/$1');
         $routes->get('user/hapus/(:num)', 'Admin\User::hapus/$1');
+
         $routes->get('tamu', 'Admin\Tamu::index');
+
         $routes->get('kegiatan', 'Admin\Kegiatan::index');
         $routes->get('kegiatan/tambah', 'Admin\Kegiatan::tambah');
+        $routes->post('kegiatan/simpan', 'Admin\Kegiatan::simpan');
+        $routes->get('kegiatan/edit/(:num)', 'Admin\Kegiatan::edit/$1');
+        $routes->post('kegiatan/update/(:num)', 'Admin\Kegiatan::update/$1');
+        $routes->get('kegiatan/hapus/(:num)', 'Admin\Kegiatan::hapus/$1');
     });
 
     // Operator
-    $routes->group('operator', ['filter' => ['auth', 'role:operator']], function ($routes) {
+    $routes->group('operator', ['filter' => ['auth', 'role:operator,developer']], function ($routes) {
         $routes->get('', 'Operator\Home::index');
         $routes->get('buku-tamu', 'Operator\Tamu::index');
         $routes->get('buku-tamu/tambah', 'Operator\Tamu::tambah');
@@ -68,5 +74,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->post('buku-tamu/update/(:num)', 'Operator\Tamu::update/$1');
         $routes->post('buku-tamu/selesai/', 'Operator\Tamu::selesai');
         $routes->get('buku-tamu/hapus/(:num)', 'Operator\Tamu::hapus/$1');
+    });
+
+    // Developer
+    $routes->group('developer', ['filter' => ['auth', 'role:developer']], function ($routes) {
+        $routes->get('', 'Developer\Home::index');
     });
 });
