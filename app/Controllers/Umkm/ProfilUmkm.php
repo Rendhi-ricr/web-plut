@@ -25,37 +25,37 @@ class ProfilUmkm extends BaseController {
 
         // validate request
         $rules = [
-            'nama_umkm' => 'alpha_numeric_space|permit_empty',
-            'alamat' => 'alpha_numeric_space|permit_empty',
-            'desa_kel' => 'alpha_space|permit_empty',
-            'kecamatan' => 'alpha_space|permit_empty',
+            'nama_umkm' => 'alpha_numeric_punct|permit_empty',
+            'alamat' => 'alpha_numeric_punct|permit_empty',
+            'desa_kel' => 'alpha_numeric_punct|permit_empty',
+            'kecamatan' => 'alpha_numeric_punct|permit_empty',
             'kode_pos' => 'numeric|exact_length[5]|permit_empty',
             'telp' => 'numeric|permit_empty',
             'email' => 'valid_email|permit_empty',
             'nik_pemilik' => 'required|numeric|exact_length[16]|is_unique[t_umkm.nik_pemilik,kode_umkm,' . $id_umkm . ']',
-            'nama_pemilik' => 'required|alpha_space',
-            'alamat_pemilik' => 'required|alpha_numeric_space',
-            'pendidikan_terakhir' => 'required|alpha_space',
+            'nama_pemilik' => 'required|alpha_numeric_punct',
+            'alamat_pemilik' => 'required|alpha_numeric_punct',
+            'pendidikan_terakhir' => 'required|alpha_numeric_punct',
             'tahun_beroperasi' => 'required|numeric|exact_length[4]|permit_empty',
-            'jenis_usaha' => 'required|alpha_space|permit_empty',
-            'wilayah_pemasaran' => 'permit_empty|alpha_space',
-            'media_pemasaran' => 'permit_empty|alpha_space',
+            'jenis_usaha' => 'required|alpha_numeric_punct|permit_empty',
+            'wilayah_pemasaran' => 'permit_empty|alpha_numeric_punct',
+            'media_pemasaran' => 'permit_empty|alpha_numeric_punct',
             'jumlah_modal_sendiri' => 'numeric|permit_empty',
             'jumlah_modal_pinjaman' => 'numeric|permit_empty',
 
         ];
         $message = [
             'nama_umkm' => [
-                'alpha_numeric_space' => 'Nama UMKM hanya boleh berisi huruf, angka, dan spasi',
+                'alpha_numeric_punct' => 'Nama UMKM hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'alamat' => [
-                'alpha_numeric_space' => 'Alamat hanya boleh berisi huruf, angka, dan spasi',
+                'alpha_numeric_punct' => 'Alamat hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'desa_kel' => [
-                'alpha_space' => 'Desa/Kelurahan hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Desa/Kelurahan hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'kecamatan' => [
-                'alpha_space' => 'Kecamatan hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Kecamatan hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'kode_pos' => [
                 'numeric' => 'Kode Pos harus berupa angka',
@@ -75,15 +75,15 @@ class ProfilUmkm extends BaseController {
             ],
             'nama_pemilik' => [
                 'required' => 'Nama Pemilik wajib diisi',
-                'alpha_space' => 'Nama Pemilik hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Nama Pemilik hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'alamat_pemilik' => [
                 'required' => 'Alamat Pemilik wajib diisi',
-                'alpha_numeric_space' => 'Alamat Pemilik hanya boleh berisi huruf, angka, dan spasi',
+                'alpha_numeric_punct' => 'Alamat Pemilik hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'pendidikan_terakhir' => [
                 'required' => 'Pendidikan Terakhir wajib diisi',
-                'alpha_space' => 'Pendidikan Terakhir hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Pendidikan Terakhir hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'tahun_beroperasi' => [
                 'required' => 'Tahun Beroperasi wajib diisi',
@@ -92,13 +92,13 @@ class ProfilUmkm extends BaseController {
             ],
             'jenis_usaha' => [
                 'required' => 'Jenis Usaha wajib diisi',
-                'alpha_space' => 'Jenis Usaha hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Jenis Usaha hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'wilayah_pemasaran' => [
-                'alpha_space' => 'Wilayah Pemasaran hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Wilayah Pemasaran hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'media_pemasaran' => [
-                'alpha_space' => 'Media Pemasaran hanya boleh berisi huruf dan spasi',
+                'alpha_numeric_punct' => 'Media Pemasaran hanya boleh berisi huruf, angka, dan tanda baca',
             ],
             'jumlah_modal_sendiri' => [
                 'numeric' => 'Jumlah Modal Sendiri harus berupa angka',
