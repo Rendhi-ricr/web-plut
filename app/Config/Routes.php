@@ -53,8 +53,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('user/edit/(:num)', 'Admin\User::edit/$1');
         $routes->post('user/update/(:num)', 'Admin\User::update/$1');
         $routes->get('user/hapus/(:num)', 'Admin\User::hapus/$1');
-
         $routes->get('tamu', 'Admin\Tamu::index');
+        $routes->get('kegiatan', 'Admin\Kegiatan::index');
+        $routes->get('kegiatan/tambah', 'Admin\Kegiatan::tambah');
     });
 
     // Operator
