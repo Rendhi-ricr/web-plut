@@ -20,7 +20,7 @@ class Tamu extends BaseController
 
     public function index()
     {
-        $data['tamu'] = $this->bukutamuModel->findAll();
+        $data['tamu'] = $this->bukutamuModel->getTamu();
         return view("admin/tamu/index", $data);
     }
 }

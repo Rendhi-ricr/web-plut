@@ -12,13 +12,15 @@ class BukuTamuModel extends Model {
     protected $useSoftDeletes = false;
     protected $protectFields = true;
     protected $allowedFields = [
+        'kategori_tamu',
+        'kode_umkm',
+        'nama_tamu',
         'layanan',
         'kategori_layanan',
         'deskripsi',
         'jam_kedatangan',
         'jam_pulang',
-        'tanggal_kedatangan',
-        'tanggal_pulang',
+        'tanggal_bertamu',
         'foto',
     ];
 
@@ -47,4 +49,9 @@ class BukuTamuModel extends Model {
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    // join table with umkm
+    public function getTamu() {
+        return $this->select('t_umkm.nama_umkm, t_buku_tamu.*')->join('t_umkm', 't_umkm.kode_umkm = t_buku_tamu.kode_umkm', 'left')->orderBy('jam_pulang', 'ASC')->findAll();
+    }
 }
