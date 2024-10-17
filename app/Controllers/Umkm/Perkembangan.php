@@ -33,7 +33,7 @@ class Perkembangan extends BaseController {
             'tahun' => 'required|numeric|exact_length[4]',
             'omzet' => 'required|numeric',
             'asset' => 'required|numeric',
-            'produk_unggulan' => 'required|alpha_numeric_space',
+            'produk_unggulan' => 'required|alpha_numeric_punct',
             'jumlah_tenaga_kerja' => 'required|numeric',
             'foto_produk' => 'uploaded[foto_produk]|max_size[foto_produk,1024]|is_image[foto_produk]|mime_in[foto_produk,image/jpg,image/jpeg,image/png]',
         ];
@@ -54,7 +54,7 @@ class Perkembangan extends BaseController {
             ],
             'produk_unggulan' => [
                 'required' => 'Produk Unggulan wajib diisi',
-                'alpha_numeric_space' => 'Produk Unggulan hanya boleh berisi huruf, angka, dan spasi',
+                'alpha_numeric_punct' => 'Produk Unggulan hanya boleh berisi huruf, angka, tanda baca, dan spasi',
             ],
             'jumlah_tenaga_kerja' => [
                 'required' => 'Jumlah Tenaga Kerja wajib diisi',
@@ -133,7 +133,7 @@ class Perkembangan extends BaseController {
             ],
             'produk_unggulan' => [
                 'required' => 'Produk Unggulan wajib diisi',
-                'alpha_numeric_space' => 'Produk Unggulan hanya boleh berisi huruf, angka, dan spasi',
+                'alpha_numeric_punct' => 'Produk Unggulan hanya boleh berisi huruf, angka, dan spasi',
             ],
             'jumlah_tenaga_kerja' => [
                 'required' => 'Jumlah Tenaga Kerja wajib diisi',

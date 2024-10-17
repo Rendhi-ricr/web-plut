@@ -48,28 +48,4 @@ class KegiatanModel extends Model
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
-    // public function getPerkembanganByUmkm($kode_umkm)
-    // {
-    //     return $this->where('kode_umkm', $kode_umkm)->findAll();
-    // }
-
-    // public function getPerkembanganById($id_perkembangan)
-    // {
-    //     // find and join
-    //     return $this->join('t_umkm', 't_umkm.kode_umkm = t_umkm_perkembangan.kode_umkm')
-    //         ->find($id_perkembangan);
-    // }
-
-    // public function joinUmkm($kode_umkm)
-    // {
-    //     return $this->join('t_umkm', 't_umkm.kode_umkm = t_umkm_perkembangan.kode_umkm')
-    //         ->where('t_umkm_perkembangan.kode_umkm', $kode_umkm)
-    //         ->findAll();
-    // }
-
-    // public function getAllPerkembangan()
-    // {
-    //     return $this->join('t_umkm', 't_umkm.kode_umkm = t_umkm_perkembangan.kode_umkm')
-    //         ->findAll();
-    // }
 }

@@ -20,8 +20,15 @@
         <link rel="stylesheet"
             href="<?=base_url('assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')?>">
         <link rel="stylesheet" href="<?=base_url('assets/vendor/fontawesome-free/css/all.min.css')?>">
+        <link rel="stylesheet" href="<?=base_url('assets/vendor/select2/dist/css/select2.min.css')?>">
+        <link rel="stylesheet" href="<?=base_url('assets/vendor/select2/theme/select2-bootstrap.min.css')?>">
         <link href="<?=base_url()?>assets/css/light.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+        * {
+            /* border: 1px solid red; */
+        }
+        </style>
     </head>
 
     <body>
@@ -44,7 +51,25 @@
         <script src="<?=base_url('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')?>"></script>
         <script src="<?=base_url('assets/vendor/datatables/datatables.min.js')?>"></script>
         <script src="<?=base_url('assets/vendor/fontawesome-free/js/all.min.js')?>"></script>
+        <script src="<?=base_url('assets/vendor/select2/dist/js/select2.full.min.js')?>"></script>
         <script src="<?=base_url('assets/js/app.js')?>"></script>
+        <script type="module">
+        $(function() {
+            $('#datepicker').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+            $('#table').DataTable();
+
+            //select2
+            $('.select2').select2({
+                // theme: "",
+            });
+
+        });
+        </script>
 
         <?=$this->renderSection('script')?>
 

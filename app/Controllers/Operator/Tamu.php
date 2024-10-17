@@ -2,28 +2,37 @@
 
 namespace App\Controllers\Operator;
 
-use App\Controllers\BaseController;
-use App\Models\BukuTamuModel;
 use DateTime;
+use App\Models\UmkmModel;
+use App\Models\BukuTamuModel;
+use App\Controllers\BaseController;
 
 class Tamu extends BaseController {
 
-    protected $tamuModel;
+    protected $tamuModel, $umkmModel;
 
     public function __construct() {
         $this->tamuModel = new BukuTamuModel();
-        // $this->userModel = new UserModel();
+        $this->umkmModel = new UmkmModel();
     }
 
     public function index() {
-        $data['tamu'] = $this->tamuModel->findAll();
+        $data['tamu'] = $this->tamuModel->getTamu();
         return view("operator/buku_tamu/index", $data);
     }
 
     public function tambah() {
-        $data = [];
+        $data = ['umkm' => $this->umkmModel->where("nama_umkm is not null and nama_umkm != ''")->findAll()];
         return view('operator/buku_tamu/tambah', $data);
     }
+
+    /*
+    * To-Do
+    * Hapus tanggal keluar
+    * Kategori tamu (umkm, umum)
+    * Nama UMKM
+    * Nama tamu
+    */
 
     public function simpan() {
         // get current date and time with timezone Asia/Jakarta
@@ -32,12 +41,17 @@ class Tamu extends BaseController {
         $currentTime = $currentDateTime->format('H:i:s');
 
         $data = [
+            'kategori_tamu' => $this->request->getPost('kategori_tamu'),
             'layanan' => $this->request->getPost('layanan'),
+            'nama_tamu' => $this->request->getPost('nama_tamu'),
             'kategori_layanan' => $this->request->getPost('kategori_layanan'),
             'deskripsi' => $this->request->getPost('deskripsi'),
-            'tanggal_kedatangan' => $currentDate,
+            'tanggal_bertamu' => $currentDate,
             'jam_kedatangan' => $currentTime,
+            'kode_umkm' => ($this->request->getPost('nama_umkm') == '') ? null : $this->request->getPost('nama_umkm'),
         ];
+
+        // dd($data);
 
         $res = $this->tamuModel->insert($data);
 
@@ -88,13 +102,11 @@ class Tamu extends BaseController {
 
     public function selesai() {
         $currentDateTime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'), new \DateTimeZone('Asia/Jakarta'));
-        $currentDate = $currentDateTime->format('Y-m-d');
         $currentTime = $currentDateTime->format('H:i:s');
 
         $id = $this->request->getPost('id_buku_tamu');
 
         $data = [
-            'tanggal_pulang' => $currentDate,
             'jam_pulang' => $currentTime,
         ];
 
